@@ -128,6 +128,7 @@ func signup(response http.ResponseWriter, request *http.Request) {
 	err := jsonDecoder.Decode(&credential)
 	if err != nil { 
 		http.Error(response, err.Error(), http.StatusBadRequest)
+		response.WriteHeader(400)
 		return
 	}
 	credentials = append(credentials, credential)
