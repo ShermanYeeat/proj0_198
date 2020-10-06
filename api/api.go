@@ -131,6 +131,7 @@ func signup(response http.ResponseWriter, request *http.Request) {
 		return
 	}
 	credentials = append(credentials, credential)
+	response.WriteHeader(201)
 	return
 }
 
@@ -237,7 +238,6 @@ func updatePassword(response http.ResponseWriter, request *http.Request) {
 			v.Password = credential.Password
 		}
 	}
-	return 
 }
 
 func remove(slice []Credentials, s int) []Credentials {
