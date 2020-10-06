@@ -135,7 +135,7 @@ func signup(response http.ResponseWriter, request *http.Request) {
 		return
 	}
 	if credential.Username == "" || credential.Password == "" {
-		http.Error(response, "", http.StatusBadRequest)
+		response.WriteHeader(400)
 		return
 	}
 	credentials = append(credentials, credential)
@@ -173,8 +173,11 @@ func getIndex(response http.ResponseWriter, request *http.Request) {
 	for i, v := range credentials {
 		if v.Username == credential.Username{
 			fmt.Fprintf(response, strconv.Itoa(i))
+			return
 		}
 	}
+
+	response.WriteHeader(400)
 	return
 }
 
@@ -206,8 +209,10 @@ func getPassword(response http.ResponseWriter, request *http.Request) {
 	for _, v := range credentials {
 		if v.Username == credential.Username{
 			fmt.Fprintf(response, v.Password)
+			return 
 		}
 	}
+	response.WriteHeader(400)
 	return 
 }
 
@@ -285,8 +290,9 @@ func deleteUser(response http.ResponseWriter, request *http.Request) {
 	for i, v := range credentials {
 		if v.Username == credential.Username && v.Password == credential.Password{
 			credentials = remove(credentials, i)
+			return
 		}
 	}
-
+	response.WriteHeader(400)
 	return
 }
