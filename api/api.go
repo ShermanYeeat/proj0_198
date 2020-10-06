@@ -128,6 +128,9 @@ func signup(response http.ResponseWriter, request *http.Request) {
 	err := jsonDecoder.Decode(&credential)
 	if err != nil { 
 		http.Error(response, err.Error(), http.StatusBadRequest)
+		return
+	}
+	if credential.Username == "" || credential.Password == "" {
 		response.WriteHeader(400)
 		return
 	}
