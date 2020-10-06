@@ -74,8 +74,7 @@ func getQuery(response http.ResponseWriter, request *http.Request) {
 		return 
 	}
 	fmt.Fprintf(response, userID)
-	
-
+	return
 }
 
 func getJSON(response http.ResponseWriter, request *http.Request) {
@@ -106,7 +105,7 @@ func getJSON(response http.ResponseWriter, request *http.Request) {
 	http.ResponseWriter.WriteHeader(response, http.StatusOK)
 	fmt.Fprintf(response, credential.Username + "\n")
 	fmt.Fprintf(response, credential.Password)
-	
+	return
 }
 
 func signup(response http.ResponseWriter, request *http.Request) {
@@ -136,6 +135,7 @@ func signup(response http.ResponseWriter, request *http.Request) {
 	}
 	credentials = append(credentials, credential)
 	response.WriteHeader(201)
+	return
 }
 
 func getIndex(response http.ResponseWriter, request *http.Request) {
@@ -170,6 +170,7 @@ func getIndex(response http.ResponseWriter, request *http.Request) {
 			fmt.Fprintf(response, strconv.Itoa(i))
 		}
 	}
+	return
 }
 
 func getPassword(response http.ResponseWriter, request *http.Request) {
@@ -202,6 +203,7 @@ func getPassword(response http.ResponseWriter, request *http.Request) {
 			fmt.Fprintf(response, v.Password)
 		}
 	}
+	return 
 }
 
 
@@ -239,6 +241,7 @@ func updatePassword(response http.ResponseWriter, request *http.Request) {
 			v.Password = credential.Password
 		}
 	}
+	return 
 }
 
 func remove(slice []Credentials, s int) []Credentials {
@@ -281,5 +284,5 @@ func deleteUser(response http.ResponseWriter, request *http.Request) {
 		}
 	}
 
-	
+	return
 }
