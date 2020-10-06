@@ -193,7 +193,7 @@ func getPassword(response http.ResponseWriter, request *http.Request) {
 	jsonDecoder := json.NewDecoder(request.Body)
 	err := jsonDecoder.Decode(&credential)
 	if err != nil {
-		http.Error(response, err.Error(), http.StatusBadRequest)
+		http.Error(response, err.Error(), 400)
 		return
 	}
 	for _, v := range credentials {
