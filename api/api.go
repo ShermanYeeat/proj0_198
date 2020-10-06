@@ -201,6 +201,7 @@ func getPassword(response http.ResponseWriter, request *http.Request) {
 			fmt.Fprintf(response, v.Password)
 		}
 	}
+	response.WriteHeader(200)
 }
 
 
