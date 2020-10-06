@@ -99,10 +99,10 @@ func getJSON(response http.ResponseWriter, request *http.Request) {
 		http.Error(response, err.Error(), http.StatusBadRequest)
 		return
 	}
-
+	http.ResponseWriter.WriteHeader(response, http.StatusOK)
 	fmt.Fprintf(response, credential.Username + "\n")
 	fmt.Fprintf(response, credential.Password)
-	http.ResponseWriter.WriteHeader(response, http.StatusOK)
+	
 }
 
 func signup(response http.ResponseWriter, request *http.Request) {
