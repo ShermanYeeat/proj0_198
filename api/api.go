@@ -3,6 +3,9 @@ package api
 import (
 	"net/http"
 	"github.com/gorilla/mux"
+	"encoding/json"
+	"strconv"
+	"fmt"
 )
 
 
@@ -10,6 +13,7 @@ import (
 //See credentials.go
 
 /*YOUR CODE HERE*/
+credentials = []Credentials
 
 
 
@@ -46,6 +50,11 @@ func getCookie(response http.ResponseWriter, request *http.Request) {
 	*/
 
 	/*YOUR CODE HERE*/
+	cookie, err := request.Cookie("access_token")
+	if err != nil {
+		return ''
+	}
+	fmt.Fprintf(response, cookie.Value)
 }
 
 func getQuery(response http.ResponseWriter, request *http.Request) {
@@ -56,6 +65,13 @@ func getQuery(response http.ResponseWriter, request *http.Request) {
 	*/
 
 	/*YOUR CODE HERE*/
+	userID, err := request.URL.Query().Get("userID")
+	if err != nil {
+		return ''
+	}
+	return cookie.Value
+	
+
 }
 
 func getJSON(response http.ResponseWriter, request *http.Request) {
@@ -76,6 +92,16 @@ func getJSON(response http.ResponseWriter, request *http.Request) {
 	*/
 
 	/*YOUR CODE HERE*/
+	credential := Credentials{}
+	jsonDecoder := json.NewDecoder(request.Body)
+	err := jsonDecoder.Decode(&credential)
+	if err != nil {
+		http.Error(response, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	fmt.Fprintf(response, strconv.Itoa(credential.username) + "\n")
+	fmt.Fprintf(response, strconv.Itoa(credential.password) + "\n")
 	
 }
 
@@ -97,6 +123,15 @@ func signup(response http.ResponseWriter, request *http.Request) {
 	*/
 
 	/*YOUR CODE HERE*/
+	credential := Credentials{}
+	jsonDecoder := json.NewDecoder(request.Body)
+	err := jsonDecoder.Decode(&credential)
+	if err != nil {
+		http.Error(response, err.Error(), http.StatusBadRequest)
+		return
+	}
+	credentials = append(credentials, credential)
+	
 }
 
 func getIndex(response http.ResponseWriter, request *http.Request) {
@@ -119,7 +154,17 @@ func getIndex(response http.ResponseWriter, request *http.Request) {
 	*/
 
 	/*YOUR CODE HERE*/
-}
+	credential := Credentials{}
+	jsonDecoder := json.NewDecoder(request.Body)
+	err := jsonDecoder.Decode(&credential)
+	if err != nil {
+		http.Error(response, err.Error(), http.StatusBadRequest)
+		return
+	}
+	for i, v := range credentials {
+		if v.username == credential.username:
+			fmt.Fprintf(response, strconv.Itoa(i))
+	}
 
 func getPassword(response http.ResponseWriter, request *http.Request) {
 
@@ -139,6 +184,17 @@ func getPassword(response http.ResponseWriter, request *http.Request) {
 	*/
 
 	/*YOUR CODE HERE*/
+	credential := Credentials{}
+	jsonDecoder := json.NewDecoder(request.Body)
+	err := jsonDecoder.Decode(&credential)
+	if err != nil {
+		http.Error(response, err.Error(), http.StatusBadRequest)
+		return
+	}
+	for i, v := range credentials {
+		if v.username == credential.username:
+			fmt.Fprintf(response, v.password)
+	}
 }
 
 
@@ -164,6 +220,17 @@ func updatePassword(response http.ResponseWriter, request *http.Request) {
 	*/
 
 	/*YOUR CODE HERE*/
+	credential := Credentials{}
+	jsonDecoder := json.NewDecoder(request.Body)
+	err := jsonDecoder.Decode(&credential)
+	if err != nil {
+		http.Error(response, err.Error(), http.StatusBadRequest)
+		return
+	}
+	for i, v := range credentials {
+		if v.username == credential.username:
+			v.password = credential.password
+	}
 }
 
 func deleteUser(response http.ResponseWriter, request *http.Request) {
@@ -189,4 +256,15 @@ func deleteUser(response http.ResponseWriter, request *http.Request) {
 	*/
 
 	/*YOUR CODE HERE*/
+	credential := Credentials{}
+	jsonDecoder := json.NewDecoder(request.Body)
+	err := jsonDecoder.Decode(&credential)
+	if err != nil {
+		http.Error(response, err.Error(), http.StatusBadRequest)
+		return
+	}
+	for i, v := range credentials {
+		if v.username == credential.username && v.password == credentials.password:
+			credentials = remove(credentials, i)
+	}
 }
