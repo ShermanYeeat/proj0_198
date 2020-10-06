@@ -52,7 +52,7 @@ func getCookie(response http.ResponseWriter, request *http.Request) {
 	/*YOUR CODE HERE*/
 	cookie, err := request.Cookie("access_token")
 	if err != nil {
-		fmt.Fprintf(response, userID)
+		fmt.Fprintf(response, "")
 	}
 	fmt.Fprintf(response, cookie.Value)
 }
