@@ -96,16 +96,14 @@ func getJSON(response http.ResponseWriter, request *http.Request) {
 
 	/*YOUR CODE HERE*/
 	credential := Credentials{}
-	jsonDecoder := json.NewDecoder(request.Body)
-	err := jsonDecoder.Decode(&credential)
+	err := json.NewDecoder(request.Body).Decode(&credential)
 	if err != nil {
 		http.Error(response, err.Error(), http.StatusBadRequest)
-		response.WriteHeader( http.StatusBadRequest)
+		// response.WriteHeader( http.StatusBadRequest)
 		return
 	}
 	fmt.Fprintf(response, credential.Username + "\n")
-	fmt.Fprintf(response, credential.Password)
-	return
+	fmt.Fprintf(response, credential.Password + "\n")
 }
 
 func signup(response http.ResponseWriter, request *http.Request) {
