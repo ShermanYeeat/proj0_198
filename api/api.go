@@ -101,6 +101,10 @@ func getJSON(response http.ResponseWriter, request *http.Request) {
 		http.Error(response, err.Error(), http.StatusBadRequest)
 		return
 	}
+	if credential.Username == "" || credential.Password == "" {
+		response.WriteHeader(400)
+		return
+	}
 	fmt.Fprintf(response, credential.Username + "\n")
 	fmt.Fprintf(response, credential.Password)
 }
@@ -131,7 +135,7 @@ func signup(response http.ResponseWriter, request *http.Request) {
 		return
 	}
 	if credential.Username == "" || credential.Password == "" {
-		response.WriteHeader(400)
+		http.Error(response, "", http.StatusBadRequest)
 		return
 	}
 	credentials = append(credentials, credential)
