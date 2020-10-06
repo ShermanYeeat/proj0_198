@@ -161,7 +161,6 @@ func getIndex(response http.ResponseWriter, request *http.Request) {
 	err := jsonDecoder.Decode(&credential)
 	if err != nil {
 		http.Error(response, err.Error(), http.StatusBadRequest)
-		response.WriteHeader(http.StatusBadRequest)
 		return
 	}
 	for i, v := range credentials {
@@ -194,7 +193,6 @@ func getPassword(response http.ResponseWriter, request *http.Request) {
 	err := jsonDecoder.Decode(&credential)
 	if err != nil {
 		http.Error(response, err.Error(), http.StatusBadRequest)
-		response.WriteHeader(http.StatusBadRequest)
 		return
 	}
 	for _, v := range credentials {
@@ -202,7 +200,6 @@ func getPassword(response http.ResponseWriter, request *http.Request) {
 			fmt.Fprintf(response, v.Password)
 		}
 	}
-	response.WriteHeader(http.StatusOK)
 }
 
 
