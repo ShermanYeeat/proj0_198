@@ -53,6 +53,7 @@ func getCookie(response http.ResponseWriter, request *http.Request) {
 	cookie, err := request.Cookie("access_token")
 	if err != nil {
 		fmt.Fprintf(response, "")
+		return 
 	}
 	fmt.Fprintf(response, cookie.Value)
 }
@@ -68,6 +69,7 @@ func getQuery(response http.ResponseWriter, request *http.Request) {
 	userID := request.URL.Query().Get("userID")
 	if userID != "" {
 		fmt.Fprintf(response, userID)
+		return 
 	}
 	fmt.Fprintf(response, "")
 	
