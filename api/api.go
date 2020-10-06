@@ -13,7 +13,7 @@ import (
 //See credentials.go
 
 /*YOUR CODE HERE*/
-credentials = []Credentials
+var credentials = []Credentials{}
 
 
 
@@ -52,7 +52,7 @@ func getCookie(response http.ResponseWriter, request *http.Request) {
 	/*YOUR CODE HERE*/
 	cookie, err := request.Cookie("access_token")
 	if err != nil {
-		return ''
+		return 
 	}
 	fmt.Fprintf(response, cookie.Value)
 }
@@ -65,11 +65,11 @@ func getQuery(response http.ResponseWriter, request *http.Request) {
 	*/
 
 	/*YOUR CODE HERE*/
-	userID, err := request.URL.Query().Get("userID")
-	if err != nil {
-		return ''
+	userID := request.URL.Query().Get("userID")
+	if userID != "" {
+		fmt.Fprintf(response, userID)
 	}
-	return cookie.Value
+	fmt.Fprintf(response, "")
 	
 
 }
@@ -100,8 +100,8 @@ func getJSON(response http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	fmt.Fprintf(response, strconv.Itoa(credential.username) + "\n")
-	fmt.Fprintf(response, strconv.Itoa(credential.password) + "\n")
+	fmt.Fprintf(response, credential.Username + "\n")
+	fmt.Fprintf(response, credential.Password + "\n")
 	
 }
 
@@ -162,9 +162,11 @@ func getIndex(response http.ResponseWriter, request *http.Request) {
 		return
 	}
 	for i, v := range credentials {
-		if v.username == credential.username:
+		if v.Username == credential.Username{
 			fmt.Fprintf(response, strconv.Itoa(i))
+		}
 	}
+}
 
 func getPassword(response http.ResponseWriter, request *http.Request) {
 
@@ -191,9 +193,10 @@ func getPassword(response http.ResponseWriter, request *http.Request) {
 		http.Error(response, err.Error(), http.StatusBadRequest)
 		return
 	}
-	for i, v := range credentials {
-		if v.username == credential.username:
-			fmt.Fprintf(response, v.password)
+	for _, v := range credentials {
+		if v.Username == credential.Username{
+			fmt.Fprintf(response, v.Password)
+		}
 	}
 }
 
@@ -227,10 +230,15 @@ func updatePassword(response http.ResponseWriter, request *http.Request) {
 		http.Error(response, err.Error(), http.StatusBadRequest)
 		return
 	}
-	for i, v := range credentials {
-		if v.username == credential.username:
-			v.password = credential.password
+	for _, v := range credentials {
+		if v.Username == credential.Username{
+			v.Password = credential.Password
+		}
 	}
+}
+
+func remove(slice []Credentials, s int) []Credentials {
+	return append(slice[:s], slice[s+1:]...)
 }
 
 func deleteUser(response http.ResponseWriter, request *http.Request) {
@@ -264,7 +272,10 @@ func deleteUser(response http.ResponseWriter, request *http.Request) {
 		return
 	}
 	for i, v := range credentials {
-		if v.username == credential.username && v.password == credentials.password:
+		if v.Username == credential.Username && v.Password == credential.Password{
 			credentials = remove(credentials, i)
+		}
 	}
+
+	
 }
