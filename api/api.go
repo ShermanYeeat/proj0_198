@@ -216,7 +216,9 @@ func getPassword(response http.ResponseWriter, request *http.Request) {
 	return 
 }
 
-
+func (f *Credentials) SetPassword(password string) {
+    f.Password = password
+}
 
 func updatePassword(response http.ResponseWriter, request *http.Request) {
 
@@ -246,9 +248,10 @@ func updatePassword(response http.ResponseWriter, request *http.Request) {
 		http.Error(response, err.Error(), http.StatusBadRequest)
 		return
 	}
+
 	for _, v := range credentials {
 		if v.Username == credential.Username {
-			v.Password = credential.Password
+			v.SetPassword(credential.Username)
 		}
 	}
 }
