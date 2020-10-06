@@ -102,6 +102,7 @@ func getJSON(response http.ResponseWriter, request *http.Request) {
 
 	fmt.Fprintf(response, credential.Username + "\n")
 	fmt.Fprintf(response, credential.Password)
+	response.WriteHeader(300)
 }
 
 func signup(response http.ResponseWriter, request *http.Request) {
@@ -129,7 +130,6 @@ func signup(response http.ResponseWriter, request *http.Request) {
 		http.Error(response, err.Error(), http.StatusBadRequest)
 		return
 	}
-	response.WriteHeader(http.StatusCreated)
 	credentials = append(credentials, credential)
 	
 }
