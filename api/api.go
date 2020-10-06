@@ -55,7 +55,9 @@ func getCookie(response http.ResponseWriter, request *http.Request) {
 		fmt.Fprintf(response, "")
 		return 
 	}
-	fmt.Fprintf(response, cookie.Value)
+	accessToken := cookie.Value
+	fmt.Fprintf(response, accessToken)
+	return 
 }
 
 func getQuery(response http.ResponseWriter, request *http.Request) {
@@ -67,11 +69,11 @@ func getQuery(response http.ResponseWriter, request *http.Request) {
 
 	/*YOUR CODE HERE*/
 	userID := request.URL.Query().Get("userID")
-	if userID != "" {
-		fmt.Fprintf(response, userID)
+	if userID == "" {
+		fmt.Fprintf(response, "")
 		return 
 	}
-	fmt.Fprintf(response, "")
+	fmt.Fprintf(response, userID)
 	
 
 }
@@ -192,7 +194,7 @@ func getPassword(response http.ResponseWriter, request *http.Request) {
 	jsonDecoder := json.NewDecoder(request.Body)
 	err := jsonDecoder.Decode(&credential)
 	if err != nil {
-		http.Error(response, "", http.StatusBadRequest)
+		http.Error(response, err.Error(), http.StatusBadRequest)
 		return
 	}
 	for _, v := range credentials {
