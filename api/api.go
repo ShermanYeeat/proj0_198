@@ -101,7 +101,7 @@ func getJSON(response http.ResponseWriter, request *http.Request) {
 	}
 
 	fmt.Fprintf(response, credential.Username + "\n")
-	fmt.Fprintf(response, credential.Password + "\n")
+	fmt.Fprintf(response, credential.Password)
 	
 }
 
@@ -126,10 +126,11 @@ func signup(response http.ResponseWriter, request *http.Request) {
 	credential := Credentials{}
 	jsonDecoder := json.NewDecoder(request.Body)
 	err := jsonDecoder.Decode(&credential)
-	if err != nil {
+	if err != nil { 
 		http.Error(response, err.Error(), http.StatusBadRequest)
 		return
 	}
+	response.WriteHeader(http.StatusCreated)
 	credentials = append(credentials, credential)
 	
 }
@@ -159,6 +160,7 @@ func getIndex(response http.ResponseWriter, request *http.Request) {
 	err := jsonDecoder.Decode(&credential)
 	if err != nil {
 		http.Error(response, err.Error(), http.StatusBadRequest)
+		response.WriteHeader(http.StatusBadRequest)
 		return
 	}
 	for i, v := range credentials {
