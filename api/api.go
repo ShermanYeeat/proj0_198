@@ -249,10 +249,9 @@ func updatePassword(response http.ResponseWriter, request *http.Request) {
 		response.WriteHeader(400)
 		return
 	}
-	test := credential.Password
-	for _, v := range credentials {
+	for i, v := range credentials {
 		if v.Username == credential.Username {
-			v.Password = test
+			credentials[i].Password = credential.Password
 			return
 		}
 	}
