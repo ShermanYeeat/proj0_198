@@ -131,7 +131,7 @@ func signup(response http.ResponseWriter, request *http.Request) {
 		return
 	}
 	credentials = append(credentials, credential)
-	
+	response.WriteHeader(201)
 }
 
 func getIndex(response http.ResponseWriter, request *http.Request) {
