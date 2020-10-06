@@ -100,9 +100,9 @@ func getJSON(response http.ResponseWriter, request *http.Request) {
 	err := jsonDecoder.Decode(&credential)
 	if err != nil {
 		http.Error(response, err.Error(), http.StatusBadRequest)
+		response.WriteHeader( http.StatusBadRequest)
 		return
 	}
-	http.ResponseWriter.WriteHeader(response, http.StatusOK)
 	fmt.Fprintf(response, credential.Username + "\n")
 	fmt.Fprintf(response, credential.Password)
 	return
@@ -134,7 +134,6 @@ func signup(response http.ResponseWriter, request *http.Request) {
 		return
 	}
 	credentials = append(credentials, credential)
-	response.WriteHeader(201)
 	return
 }
 
@@ -238,11 +237,7 @@ func updatePassword(response http.ResponseWriter, request *http.Request) {
 	}
 	for _, v := range credentials {
 		if v.Username == credential.Username {
-			fmt.Println("Text variableSpecifier", v.Password)
-			fmt.Println("Text variableSpecifier", credential.Password)
 			v.Password = credential.Password
-			fmt.Println("Text variableSpecifier", v.Password)
-			fmt.Println("Text variableSpecifier", credential.Password)
 		}
 	}
 	return 
